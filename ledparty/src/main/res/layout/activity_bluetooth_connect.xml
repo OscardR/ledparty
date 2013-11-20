@@ -16,4 +16,17 @@
         android:cropToPadding="false"
         android:scaleType="centerCrop"
         android:src="@drawable/background" />
+
+    <ImageButton
+        android:background="@drawable/button_round"
+        android:layout_width="96dip"
+        android:layout_height="96dip"
+        android:id="@+id/btnBluetooth"
+        android:layout_gravity="center"
+        android:onClick="onClickBluetoothConnect"
+        android:clickable="true"
+        android:src="@drawable/ic_action_bluetooth"
+        android:scaleType="fitXY"
+        android:layout_marginTop="96dip" />
+
 </FrameLayout>

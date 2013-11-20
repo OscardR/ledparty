@@ -3,18 +3,25 @@ package es.uji.ei1057.ledparty;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class BluetoothConnectActivity extends Activity {
+
+    ImageButton btnBluetooth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
+
+        btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -58,6 +65,13 @@ public class BluetoothConnectActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_bluetooth_connect, container, false);
             return rootView;
         }
+    }
+
+    public void onClickBluetoothConnect(View view) {
+        btnBluetooth.setEnabled(false);
+        Toast.makeText(getApplicationContext(), "Buscando dispositivos LED", Toast.LENGTH_LONG).show();
+        // TODO: Empezar a buscar dispositivos. Copiar de BTManager
+        Log.d("ledparty", "Has pulsado el botón");
     }
 
 }
