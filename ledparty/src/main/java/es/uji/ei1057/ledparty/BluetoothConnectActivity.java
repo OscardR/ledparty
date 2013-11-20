@@ -1,20 +1,16 @@
 package es.uji.ei1057.ledparty;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 public class BluetoothConnectActivity extends Activity {
 
     ImageButton btnBluetooth;
+    BluetoothConnectFragment bluetoothConnectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +20,10 @@ public class BluetoothConnectActivity extends Activity {
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+            bluetoothConnectFragment = new BluetoothConnectFragment();
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(bluetoothConnectFragment, "bluetooth_connect_fragment")
                     .commit();
         }
     }
@@ -51,27 +49,14 @@ public class BluetoothConnectActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_bluetooth_connect, container, false);
-            return rootView;
-        }
-    }
-
     public void onClickBluetoothConnect(View view) {
+        // Desactivar el botón mientras se buscan dispositivos
         btnBluetooth.setEnabled(false);
-        Toast.makeText(getApplicationContext(), "Buscando dispositivos LED", Toast.LENGTH_LONG).show();
-        // TODO: Empezar a buscar dispositivos. Copiar de BTManager
-        Log.d("ledparty", "Has pulsado el botón");
+
+        bluetoothConnectFragment.onClickBluetoothConnect();
+
+        // Activar al acabar de buscar dispositivos
+        btnBluetooth.setEnabled(true);
     }
 
 }
