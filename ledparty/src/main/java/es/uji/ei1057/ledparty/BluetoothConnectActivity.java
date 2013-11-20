@@ -1,7 +1,6 @@
 package es.uji.ei1057.ledparty;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 public class BluetoothConnectActivity extends Activity {
 
@@ -28,7 +26,7 @@ public class BluetoothConnectActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.bluetooth_connect, menu);
         return true;
@@ -56,7 +54,7 @@ public class BluetoothConnectActivity extends Activity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_bluetooth_connect, container, false);
             return rootView;
         }
