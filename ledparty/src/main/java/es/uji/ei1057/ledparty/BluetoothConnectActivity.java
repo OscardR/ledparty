@@ -2,6 +2,7 @@ package es.uji.ei1057.ledparty;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 
 public class BluetoothConnectActivity extends Activity {
 
+    BluetoothSingleton bluetoothSingleton;
     ImageButton btnBluetooth;
     BluetoothConnectFragment bluetoothConnectFragment;
 
@@ -18,6 +20,7 @@ public class BluetoothConnectActivity extends Activity {
         setContentView(R.layout.activity_bluetooth_connect);
 
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
+        bluetoothSingleton = BluetoothSingleton.getInstance(this);
 
         if (savedInstanceState == null) {
             bluetoothConnectFragment = new BluetoothConnectFragment();
@@ -31,7 +34,6 @@ public class BluetoothConnectActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.bluetooth_connect, menu);
         return true;
@@ -53,7 +55,9 @@ public class BluetoothConnectActivity extends Activity {
         // Desactivar el botón mientras se buscan dispositivos
         btnBluetooth.setEnabled(false);
 
-        bluetoothConnectFragment.onClickBluetoothConnect();
+        Log.d("ledparty", "bluetoothConnectFragment.onClickBluetoothConnect");
+
+        bluetoothSingleton.toggleBluetooth();
 
         // Activar al acabar de buscar dispositivos
         btnBluetooth.setEnabled(true);
