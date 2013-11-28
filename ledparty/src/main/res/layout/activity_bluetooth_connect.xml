@@ -11,14 +11,13 @@
         android:layout_height="fill_parent"
         android:id="@+id/imgBg"
         android:layout_gravity="center"
-        android:contentDescription="Fondo de la Aplicación"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
         android:src="@drawable/background" />
 
     <ImageButton
-        android:background="@drawable/button_round"
+        android:background="@drawable/button_selector"
         android:layout_width="96dip"
         android:layout_height="96dip"
         android:id="@+id/btnBluetooth"
@@ -27,6 +26,16 @@
         android:clickable="true"
         android:src="@drawable/ic_action_bluetooth"
         android:scaleType="fitXY"
-        android:layout_marginTop="96dip" />
+        android:adjustViewBounds="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/img_url"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal|bottom"
+        android:visibility="invisible"
+        android:textSize="8sp" />
 
 </FrameLayout>

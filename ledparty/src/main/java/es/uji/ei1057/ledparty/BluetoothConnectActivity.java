@@ -2,35 +2,26 @@ package es.uji.ei1057.ledparty;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class BluetoothConnectActivity extends Activity {
 
     BluetoothSingleton bluetoothSingleton;
     ImageButton btnBluetooth;
-    BluetoothConnectFragment bluetoothConnectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
-
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
+
+        // Al crear la actividad, se instancia el Singleton del Bluetooth, para el resto de operaciones
         bluetoothSingleton = BluetoothSingleton.getInstance(this);
-
-        if (savedInstanceState == null) {
-            bluetoothConnectFragment = new BluetoothConnectFragment();
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(bluetoothConnectFragment, "bluetooth_connect_fragment")
-                    .commit();
-        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,21 +37,31 @@ public class BluetoothConnectActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "No implementado", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handler para el botón principal, que activa el bluetooth y busca dispositivos
+     *
+     * @param view la vista del botón pulsado
+     */
     public void onClickBluetoothConnect(View view) {
         // Desactivar el botón mientras se buscan dispositivos
         btnBluetooth.setEnabled(false);
 
-        Log.d("ledparty", "bluetoothConnectFragment.onClickBluetoothConnect");
-
-        bluetoothSingleton.toggleBluetooth();
+        // El singleton del bluetooth lo hace todo
+        bluetoothSingleton.startBluetooth();
 
         // Activar al acabar de buscar dispositivos
         btnBluetooth.setEnabled(true);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bluetoothSingleton.destroy();
+    }
 }

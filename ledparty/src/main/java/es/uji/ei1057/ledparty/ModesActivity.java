@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -88,7 +91,6 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.modes, menu);
         return true;
@@ -100,8 +102,16 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. Use NavUtils to allow users
+                // to navigate up one level in the application structure.
+                NavUtils.navigateUpTo(this, new Intent(this, BluetoothConnectActivity.class));
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(this, "No implementado", Toast.LENGTH_SHORT).show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

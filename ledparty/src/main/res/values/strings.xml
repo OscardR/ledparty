@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">LEDParty</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_modes">ModesActivity</string>
     <string name="title_section_text">Text</string>
     <string name="title_section_spectral">Spectral Analyzer</string>
     <string name="title_section_beatbox">Beatbox</string>
-
+    <string name="img_url">http://3.bp.blogspot.com/-FmzkF7HhI0w/UA3k6YyOSvI/AAAAAAAAOo8/brWmgt_uYc4/s1600/color-led+Color+led+wallpapers.jpg</string>
 </resources>

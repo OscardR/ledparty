@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">LEDParty</string>
     <string name="action_settings">Opciones</string>
     <string name="title_activity_modes">Modo</string>
     <string name="title_section_text">Texto</string>
     <string name="title_section_spectral">Espectroscopio</string>
     <string name="title_section_beatbox">Beatbox</string>
-
 </resources>
