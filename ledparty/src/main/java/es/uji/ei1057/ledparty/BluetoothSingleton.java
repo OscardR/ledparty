@@ -43,7 +43,7 @@ public class BluetoothSingleton extends BroadcastReceiver {
 
     // UUID y MAC por defecto, para funcionar con el K70IC
     private String DEFAULT_MAC = "00:0A:3A:7D:66:08";
-    private String DEFAULT_UUID = "0000110a-0000-1000-8000-00805f9b34fb";
+    private String DEFAULT_UUID = "00001101-0000-1000-8000-00805f9b34fb";
 
     public OutputStream outputStream;
     public InputStream inputStream;
@@ -55,7 +55,7 @@ public class BluetoothSingleton extends BroadcastReceiver {
      * Para gestionar el contexto y la instanciación singletoniana
      */
     private static BluetoothSingleton instance;
-    private Context context;
+    private static Context context;
 
     /**
      * Constructor privado para singleton. Inicializa ciertos elementos
@@ -72,6 +72,7 @@ public class BluetoothSingleton extends BroadcastReceiver {
         if (instance == null) {
             return new BluetoothSingleton(ctx);
         }
+        context = ctx;
         return instance;
     }
 
@@ -176,7 +177,8 @@ public class BluetoothSingleton extends BroadcastReceiver {
                         Log.d("ledparty", "EXCEPCIÓN!!: " + e.getMessage());
                     }
 
-                    outputStream.write("AAAAAHHHH!!!".getBytes());
+                    //setMode(ModesActivity.SectionFragment.SECTION_TEXT);
+                    //outputStream.write("\\T".getBytes());
 
                     return true;
                 } catch (Exception e) {
@@ -266,5 +268,25 @@ public class BluetoothSingleton extends BroadcastReceiver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+    }
+
+    public void setMode(int mode) {
+        try {
+            switch (mode) {
+                case ModesActivity.SectionFragment.SECTION_TEXT:
+                    outputStream.write("\\T".getBytes());
+                    break;
+                case ModesActivity.SectionFragment.SECTION_SPECTRAL:
+                    outputStream.write("\\S".getBytes());
+                    break;
+                case ModesActivity.SectionFragment.SECTION_BEATBOX:
+                    outputStream.write("\\B".getBytes());
+                    break;
+            }
+        } catch (IOException e) {
+            Log.e("ledparty", "No se puede cambiar el modo");
+        } catch (NullPointerException npe) {
+            Log.e("ledparty", "Ya no hay outputStream...");
+        }
     }
 }

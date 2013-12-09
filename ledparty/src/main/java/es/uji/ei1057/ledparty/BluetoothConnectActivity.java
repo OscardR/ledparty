@@ -20,7 +20,8 @@ public class BluetoothConnectActivity extends Activity {
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
 
         // Al crear la actividad, se instancia el Singleton del Bluetooth, para el resto de operaciones
-        bluetoothSingleton = BluetoothSingleton.getInstance(this);
+        //bluetoothSingleton = BluetoothSingleton.getInstance(this);
+        bluetoothSingleton = ((LEDPartyApp) getApplicationContext()).getBluetoothSingleton(this);
     }
 
     @Override
