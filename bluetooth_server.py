@@ -33,7 +33,12 @@ class LEDPartyServer:
 
     def iniciar(self):
         print "Esperando una conexión en el canal RFCOMM, puerto %d" % self.puerto
-        self.socket_cliente, self.client_info = self.socket_servidor.accept()
+        try:
+            self.socket_cliente, self.client_info = self.socket_servidor.accept()
+        except KeyboardInterrupt:
+            print "Cancelado."
+            self.socket_servidor.close()
+            exit(0)
         print "Aceptada la conexión de ", self.client_info
         self.recibir()
 
@@ -68,6 +73,9 @@ class LEDPartyServer:
 
         except IOError:
             self.desconectar()
+        except KeyboardInterrupt:
+        	print "Cierre de sesión"
+        	self.desconectar()
 
     def desconectar( self ):
         print "Desconectando..."

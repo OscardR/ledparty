@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
 import android.os.ParcelUuid;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,7 +29,7 @@ import java.util.concurrent.Future;
 /**
  * Created by Óscar Gómez <oscar.gomez@uji.es> on 27/11/13.
  */
-public class BluetoothSingleton extends BroadcastReceiver {
+public class BluetoothMaster extends BroadcastReceiver {
 
     /**
      * Para gestionar la transferencia en el bluetooth
@@ -41,43 +40,45 @@ public class BluetoothSingleton extends BroadcastReceiver {
     private List<BluetoothDevice> deviceList = new ArrayList<BluetoothDevice>();
     private DeviceListAdapter listAdapter;
 
-    // UUID y MAC por defecto, para funcionar con el K70IC
+    /**
+     * UUID y MAC por defecto, para funcionar con el K70IC
+     */
     private String DEFAULT_MAC = "00:0A:3A:7D:66:08";
     private String DEFAULT_UUID = "00001101-0000-1000-8000-00805f9b34fb";
 
+    /**
+     * Streams para enviar y recibir datos
+     */
     public OutputStream outputStream;
     public InputStream inputStream;
 
-    private Handler handler = new Handler();
-    ProgressDialog progressDialog;
+    /**
+     * Constantes para el envío de datos y comandos al servidor
+     */
+    private static final byte[] MODE_TEXT_COMMAND = "\\T".getBytes();
+    private static final byte[] MODE_SPECTRAL_COMMAND = "\\S".getBytes();
+    private static final byte[] MODE_BEATBOX_COMMAND = "\\B".getBytes();
 
     /**
-     * Para gestionar el contexto y la instanciación singletoniana
+     * Para gestionar el contexto y los diálogos
      */
-    private static BluetoothSingleton instance;
     private static Context context;
+    ProgressDialog progressDialog;
 
     /**
      * Constructor privado para singleton. Inicializa ciertos elementos
      *
      * @param ctx
      */
-    private BluetoothSingleton(Context ctx) {
+    public BluetoothMaster(Context ctx) {
         context = ctx;
         bluetooth = BluetoothAdapter.getDefaultAdapter();
         listAdapter = new DeviceListAdapter(context, deviceList);
     }
 
-    public static BluetoothSingleton getInstance(Context ctx) {
-        if (instance == null) {
-            return new BluetoothSingleton(ctx);
-        }
+    public BluetoothMaster getInstanceWithContext(Context ctx) {
         context = ctx;
-        return instance;
-    }
-
-    public static BluetoothSingleton getInstance() {
-        return instance;
+        return this;
     }
 
     /**
@@ -89,7 +90,6 @@ public class BluetoothSingleton extends BroadcastReceiver {
         } else {
             context.startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
             context.registerReceiver(this, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
-            Log.d("ledparty", "startBluetooth");
         }
     }
 
@@ -104,8 +104,10 @@ public class BluetoothSingleton extends BroadcastReceiver {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        // Resetear la lista
         deviceList.clear();
 
+        // Setear this como receptor de los intentos de descubrimiento y dispositivo encontrado
         context.registerReceiver(this, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         context.registerReceiver(this, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
 
@@ -120,41 +122,50 @@ public class BluetoothSingleton extends BroadcastReceiver {
         Toast.makeText(context, "Mostrando lista de dispositivos", Toast.LENGTH_LONG).show();
 
         // Experimento: añadir los dispositivos pareados
-//        for (Object bt : bluetooth.getBondedDevices().toArray()) {
-//            deviceList.add((BluetoothDevice) bt);
-//        }
+        // for (Object bt : bluetooth.getBondedDevices().toArray()) { deviceList.add((BluetoothDevice) bt); }
 
+        // Mostrar un diálogo para seleccionar el dispositivo
         AlertDialog bluetoothDialog = new AlertDialog.Builder(context)
                 .setTitle("Elige un dispositivo")
                 .setAdapter(listAdapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        // TODO: Conectar con el dispositivo elegido
                         device = (BluetoothDevice) listAdapter.getItem(which);
                         ParcelUuid uuids[] = device.getUuids();
+
+                        // Mostrar todos los UUIDs de los servicios ofrecidos por el dispositivo encontrado
                         for (ParcelUuid uuid : uuids) {
                             Log.d("ledparty", "UUID: " + uuid.toString());
                         }
-                        //String uuid = uuids[uuids.length - 1].toString();
-                        Toast.makeText(context, "Conectando a dispositivo con UUID " + DEFAULT_UUID, Toast.LENGTH_LONG).show();
 
-                        if (connect()) { //connect(uuid)) { // UUID por defecto: 0000110a-0000-1000-8000-00805f9b34fb
+                        Toast.makeText(context, "Conectando a dispositivo...", Toast.LENGTH_LONG).show();
+
+                        // UUID por defecto: 00001101-0000-1000-8000-00805f9b34fb
+                        if (connect()) {
+                            // Si hay conexión, iniciar la actividad de los modos de transmisión
                             Intent modesIntent = new Intent(context, ModesActivity.class);
                             context.startActivity(modesIntent);
                         } else {
                             Toast.makeText(context, "Conexión rechazada!", Toast.LENGTH_SHORT).show();
                         }
-                        ;
 
                         //Toast.makeText(context, "Has hecho click en " + which, Toast.LENGTH_SHORT).show();
                     }
-                })
-                .show();
+                }).show();
     }
 
     /**
-     * Conectarse a un dispositivo, dado su UUID en formato String
+     * Conexión por defecto al UUID del BluetoothCar
+     *
+     * @return
+     */
+    public boolean connect() {
+        return connect(DEFAULT_UUID);
+    }
+
+    /**
+     * Conectarse a un servicio, dado su UUID en formato String
      *
      * @return
      */
@@ -163,7 +174,7 @@ public class BluetoothSingleton extends BroadcastReceiver {
         Callable<Boolean> callable = new Callable<Boolean>() {
             @Override
             public Boolean call() {
-                //Create a Socket connection: need the server's UUID number of registered
+                //Crear una conexión a Socket: se necesita el UUID del servicio registrado
                 try {
                     socket = device.createRfcommSocketToServiceRecord(UUID.fromString(uuid));
 
@@ -177,12 +188,8 @@ public class BluetoothSingleton extends BroadcastReceiver {
                         Log.d("ledparty", "EXCEPCIÓN!!: " + e.getMessage());
                     }
 
-                    //setMode(ModesActivity.SectionFragment.SECTION_TEXT);
-                    //outputStream.write("\\T".getBytes());
-
                     return true;
                 } catch (Exception e) {
-                    //e.printStackTrace();
                     Log.e("ledparty", "excepción en bluetooth.connect()");
                     return false;
                 }
@@ -203,16 +210,6 @@ public class BluetoothSingleton extends BroadcastReceiver {
     }
 
     /**
-     * Conexión por defecto al UUID del BluetoothCar
-     * TODO: Cambiar por el UUID del módulo Bluetooth de pruebas
-     *
-     * @return
-     */
-    public boolean connect() {
-        return connect(DEFAULT_UUID);
-    }
-
-    /**
      * Handler para reaccionar a la activación del Bluetooth (y otros Intents)
      *
      * @param context el contexto en el cual se ha procesado el Intent
@@ -221,10 +218,9 @@ public class BluetoothSingleton extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.d("ledparty", "dentro de onReceive");
         if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) { //Bluetooth permission request window
 
-            Log.d("ledparty", "" + intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR));
+            Log.d("ledparty", "EXTRA_STATE: " + intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR));
 
             if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR) == BluetoothAdapter.STATE_ON) {
                 Toast.makeText(context, "Bluetooth Activado!", Toast.LENGTH_SHORT).show();
@@ -239,7 +235,7 @@ public class BluetoothSingleton extends BroadcastReceiver {
         } else if (intent.getAction().equals(BluetoothDevice.ACTION_FOUND)) {
 
             // Extraer el dispositivo y añadir a la lista
-            device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             deviceList.add(device);
             Toast.makeText(context, "Nuevo dispositivo encontrado", Toast.LENGTH_SHORT).show();
 
@@ -261,32 +257,46 @@ public class BluetoothSingleton extends BroadcastReceiver {
      * Aquí finalizamos y cerramos los sockets
      */
     public void destroy() {
-        context.unregisterReceiver(this);
+        try {
+            context.unregisterReceiver(this);
         if (socket != null)
             try {
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } catch (IllegalArgumentException iae) {
+            Log.d("ledparty", "todo cerrado!");
+        }
     }
 
+    /**
+     * Mandar el código de cambio de modo por el socket Bluetooth
+     *
+     * @param mode
+     */
     public void setMode(int mode) {
         try {
+            outputStream = socket.getOutputStream();
             switch (mode) {
-                case ModesActivity.SectionFragment.SECTION_TEXT:
-                    outputStream.write("\\T".getBytes());
+                case ModeFragment.MODE_TEXT:
+                    outputStream.write(MODE_TEXT_COMMAND);
                     break;
-                case ModesActivity.SectionFragment.SECTION_SPECTRAL:
-                    outputStream.write("\\S".getBytes());
+                case ModeFragment.MODE_SPECTRAL:
+                    outputStream.write(MODE_SPECTRAL_COMMAND);
                     break;
-                case ModesActivity.SectionFragment.SECTION_BEATBOX:
-                    outputStream.write("\\B".getBytes());
+                case ModeFragment.MODE_BEATBOX:
+                    outputStream.write(MODE_BEATBOX_COMMAND);
                     break;
             }
         } catch (IOException e) {
             Log.e("ledparty", "No se puede cambiar el modo");
         } catch (NullPointerException npe) {
-            Log.e("ledparty", "Ya no hay outputStream...");
+            if (socket == null)
+                Log.e("ledparty", "Ya no hay socket...");
+            else if (outputStream == null)
+                Log.e("ledparty", "Ya no hay outputStream...");
+
         }
     }
 }

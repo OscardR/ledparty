@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class BluetoothConnectActivity extends Activity {
 
-    BluetoothSingleton bluetoothSingleton;
+    BluetoothMaster bluetoothMaster;
     ImageButton btnBluetooth;
 
     @Override
@@ -19,9 +19,8 @@ public class BluetoothConnectActivity extends Activity {
         setContentView(R.layout.activity_bluetooth_connect);
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
 
-        // Al crear la actividad, se instancia el Singleton del Bluetooth, para el resto de operaciones
-        //bluetoothSingleton = BluetoothSingleton.getInstance(this);
-        bluetoothSingleton = ((LEDPartyApp) getApplicationContext()).getBluetoothSingleton(this);
+        // Al crear la actividad, se instancia el BluetoothMaster, para el resto de operaciones
+        bluetoothMaster = ((LEDPartyApp) getApplicationContext()).getBluetoothMaster(this);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class BluetoothConnectActivity extends Activity {
         btnBluetooth.setEnabled(false);
 
         // El singleton del bluetooth lo hace todo
-        bluetoothSingleton.startBluetooth();
+        bluetoothMaster.startBluetooth();
 
         // Activar al acabar de buscar dispositivos
         btnBluetooth.setEnabled(true);
@@ -63,6 +62,6 @@ public class BluetoothConnectActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        bluetoothSingleton.destroy();
+        bluetoothMaster.destroy();
     }
 }
