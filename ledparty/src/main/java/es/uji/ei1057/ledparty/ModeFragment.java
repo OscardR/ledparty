@@ -23,12 +23,13 @@ public class ModeFragment extends Fragment {
     public static final int MODE_TEXT = 0;
     public static final int MODE_SPECTRAL = 1;
     public static final int MODE_BEATBOX = 2;
+    protected ModesActivity callback;
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static Fragment newInstance(int sectionNumber) {
+    public static ModeFragment newInstance(int sectionNumber) {
         ModeFragment fragment = new ModeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -54,4 +55,12 @@ public class ModeFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Ponemos la actividad como callback para poder llamar a métodos de la actividad
+     *
+     * @param cbk
+     */
+    public void setCallback(ModesActivity cbk) {
+        this.callback = cbk;
+    }
 }

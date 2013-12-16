@@ -1,6 +1,5 @@
 package es.uji.ei1057.ledparty;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public class TextModeFragment extends ModeFragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static Fragment newInstance() {
+    public static ModeFragment newInstance() {
         TextModeFragment fragment = new TextModeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, ModeFragment.MODE_TEXT);

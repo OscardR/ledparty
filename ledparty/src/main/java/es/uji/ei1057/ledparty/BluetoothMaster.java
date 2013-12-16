@@ -259,12 +259,12 @@ public class BluetoothMaster extends BroadcastReceiver {
     public void destroy() {
         try {
             context.unregisterReceiver(this);
-        if (socket != null)
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (socket != null)
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         } catch (IllegalArgumentException iae) {
             Log.d("ledparty", "todo cerrado!");
         }
@@ -297,6 +297,15 @@ public class BluetoothMaster extends BroadcastReceiver {
             else if (outputStream == null)
                 Log.e("ledparty", "Ya no hay outputStream...");
 
+        }
+    }
+
+    public void sendMessage(String message) {
+        try {
+            outputStream = socket.getOutputStream();
+            outputStream.write(message.getBytes());
+        } catch (IOException e) {
+            Log.e("ledparty", "No pudo ser");
         }
     }
 }

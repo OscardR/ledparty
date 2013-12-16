@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -65,7 +67,6 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
                 Log.d("ledparty", "onPageSelected: " + position);
                 ModeFragment f = ((ModeFragment) modePagerAdapter.getItem(position));
                 int i = f.getArguments().getInt(ModeFragment.ARG_SECTION_NUMBER);
-                Toast.makeText(getApplicationContext(), "Fragment: " + i, Toast.LENGTH_SHORT).show();
                 bluetoothMaster.setMode(i);
             }
         });
@@ -89,7 +90,7 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
             e.printStackTrace();
         }
 
-        BluetoothMaster bluetoothMaster = ((LEDPartyApp) getApplication()).getBluetoothMaster(this);
+        bluetoothMaster = ((LEDPartyApp) getApplication()).getBluetoothMaster(this);
         Log.d("ledparty", "ModesActivity onCreate");
     }
 
@@ -137,6 +138,17 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
     }
 
     /**
+     * Callback para el fragmento del envío de Texto
+     * @param v
+     */
+    public void onBtnSendClick(View v) {
+        String message = ((EditText) v.getRootView().findViewById(R.id.editText)).getText().toString();
+        Toast.makeText(this, "Texto enviado", Toast.LENGTH_SHORT).show();
+        bluetoothMaster.sendMessage(message);
+        Log.d("ledparty", "capturado onBtnSendClick");
+    }
+
+    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -150,16 +162,21 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a ModeFragment (defined as a static inner class below).
+            ModeFragment page;
             switch (position) {
                 case ModeFragment.MODE_TEXT:
-                    return TextModeFragment.newInstance();
+                    page = TextModeFragment.newInstance();
+                    break;
                 case ModeFragment.MODE_SPECTRAL:
-                    return ModeFragment.newInstance(position);
+                    page = ModeFragment.newInstance(position);
+                    break;
                 case ModeFragment.MODE_BEATBOX:
-                    return ModeFragment.newInstance(position);
+                    page = ModeFragment.newInstance(position);
+                    break;
                 default:
-                    return ModeFragment.newInstance(position);
+                    page = ModeFragment.newInstance(position);
             }
+            return page;
         }
 
         @Override

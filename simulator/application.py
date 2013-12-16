@@ -27,9 +27,10 @@ class LEDPartyServer:
         nb.set_tab_pos(gtk.POS_TOP)
         nb.connect("switch-page", self.on_page_changed)
 
-        self.add_page("Texto")
-        self.add_page("Espectroscopio")
-        self.add_page("BeatBox")
+        h = gtk.HBox()
+        self.add_page("Texto", h)
+        self.add_page("Espectroscopio", h)
+        self.add_page("BeatBox", h)
         w.add(nb)
 
         self.show_all()
@@ -50,10 +51,14 @@ class LEDPartyServer:
         self.bluetooth_server.desconectar()
         gtk.main_quit()
 
-    def add_page(self, title):
+    def add_page(self, title, frame):
+
         self.hbox = gtk.HBox()
         h = self.hbox
         h.show()
+        l = gtk.Label("Texto recibido")
+        l.show()
+        h.add(l)
         self.label_title = Label(title)
         l = self.label_title
         l.show()
@@ -73,14 +78,7 @@ class LEDPartyServer:
 
     def on_mode_changed(self, mode):
         print "[on_mode_changed: %d]" % mode
-        if mode == MODO_TEXTO:
-            self.on_page_changed(self.notebook, "Texto", 0)
-        elif mode == MODO_ESPECTROSCOPIO:
-            self.on_page_changed(self.notebook, "Espectroscopio", 1)
-        elif mode == MODO_BEATBOX:
-            self.on_page_changed(self.notebook, "Beatbox", 2)
-        else:
-            pass
+        self.notebook.set_current_page(mode)
 
     def on_data_received(self, data):
         print "[app] data received: %s" % data
