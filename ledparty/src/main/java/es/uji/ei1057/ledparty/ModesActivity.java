@@ -168,10 +168,10 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
                     page = TextModeFragment.newInstance();
                     break;
                 case ModeFragment.MODE_SPECTRAL:
-                    page = ModeFragment.newInstance(position);
+                    page = SpectrumModeFragment.newInstance();
                     break;
                 case ModeFragment.MODE_BEATBOX:
-                    page = ModeFragment.newInstance(position);
+                    page = BeatboxModeFragment.newInstance();
                     break;
                 default:
                     page = ModeFragment.newInstance(position);

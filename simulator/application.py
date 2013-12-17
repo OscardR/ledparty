@@ -16,6 +16,7 @@ gobject.threads_init()
 class LEDPartyServer:
     def __init__(self):
         self.debug("LEDPartyServer iniciado")
+        self.mode = MODO_TEXTO
         
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         w = self.window
