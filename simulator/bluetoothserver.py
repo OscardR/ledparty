@@ -32,23 +32,23 @@ class BluetoothServer:
         )
 
     def iniciar(self):
-        print "Esperando una conexión en el canal RFCOMM, puerto %d" % self.puerto
+        self.debug("Esperando una conexión en el canal RFCOMM, puerto %d" % self.puerto)
         try:
             self.socket_cliente, self.client_info = self.socket_servidor.accept()
         except KeyboardInterrupt:
-            print "Cancelado."
+            self.debug("Cancelado.")
             self.socket_servidor.close()
             exit(0)
-        print "Aceptada la conexión de ", self.client_info
+        self.debug("Aceptada la conexión de {}".format(self.client_info))
         self.recibir()
 
     def tratar_datos(self, data):
         if self.modo == MODO_TEXTO:
-            print "Texto: [%s]" % data
+            self.debug("Texto: [%s]" % data)
         elif self.modo == MODO_ESPECTROSCOPIO:
-            print "Espectroscopio: [%s]" % data
+            self.debug("Espectroscopio: [%s]" % data)
         elif self.modo == MODO_BEATBOX:
-            print "Beatbox: [%s]" % data
+            self.debug("Beatbox: [%s]" % data)
 
         if __name__ != "__main__":
             self.avisar_data(data)
@@ -60,13 +60,13 @@ class BluetoothServer:
                 if len(data) == 0: break
                 
                 if data == "\\T":
-                    print "[Modo Texto]"
+                    self.debug("[Modo Texto]")
                     self.modo = MODO_TEXTO
                 elif data == "\\S":
-                    print "[Modo Espectroscopio]"
+                    self.debug("[Modo Espectroscopio]")
                     self.modo = MODO_ESPECTROSCOPIO
                 elif data == "\\B":
-                    print "[Modo Beatbox]"
+                    self.debug("[Modo Beatbox]")
                     self.modo = MODO_BEATBOX
                 else:
                     self.tratar_datos(data)
@@ -74,33 +74,38 @@ class BluetoothServer:
                 if data[0] == "\\" and __name__ != "__main__":
                     self.avisar_modo(self.modo)
 
-                if DEBUG:
-                    print "received [%s]" % data
+                self.debug("received [%s]" % data)
 
         except IOError:
             self.desconectar()
         except KeyboardInterrupt:
-                print "Cierre de sesión"
+                self.debug("Cierre de sesión")
                 self.desconectar()
 
     def desconectar(self):
-        print "Desconectando..."
+        self.debug("Desconectando...")
         if hasattr(self, "socket_cliente"):
             self.socket_cliente.close()
         self.socket_servidor.close()
-        print "Desconectado"
+        self.debug("Desconectado")
 
     def set_escuchador(self, escuchador):
-        print "Escuchador: %s" % escuchador
+        self.debug("Escuchador: %s" % escuchador)
         self.escuchador = escuchador
 
     def avisar_modo(self, modo):
-        print "avisando a escuchador de modo"
+        self.debug("avisando a escuchador de modo")
         self.escuchador.on_mode_changed(modo)
 
     def avisar_data(self, data):
-        print "avisando a escuchador de modo"
+        self.debug("avisando a escuchador de modo")
         self.escuchador.on_data_received(data)
+
+    def debug(self, msg):
+        if DEBUG:
+            print "[bluetoothserver] %s" % msg
+        if hasattr(self, 'escuchador'):
+            self.escuchador.on_status_changed(msg)
 
 if __name__ == "__main__":
     server = BluetoothServer()
