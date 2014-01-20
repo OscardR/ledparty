@@ -9,10 +9,11 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/imgBg"
+        android:id="@+id/imgBgSpectrum"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
         android:src="@drawable/spectrum"
-        android:layout_margin="20dip" />
+        android:layout_margin="20dip"
+        android:alpha="0.15" />
 </RelativeLayout>

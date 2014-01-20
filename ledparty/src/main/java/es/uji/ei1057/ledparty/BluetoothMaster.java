@@ -134,10 +134,11 @@ public class BluetoothMaster extends BroadcastReceiver {
                         device = (BluetoothDevice) listAdapter.getItem(which);
                         ParcelUuid uuids[] = device.getUuids();
 
-                        // Mostrar todos los UUIDs de los servicios ofrecidos por el dispositivo encontrado
-                        for (ParcelUuid uuid : uuids) {
-                            Log.d("ledparty", "UUID: " + uuid.toString());
-                        }
+                        if (uuids != null)
+                            // Mostrar todos los UUIDs de los servicios ofrecidos por el dispositivo encontrado
+                            for (ParcelUuid uuid : uuids) {
+                                Log.d("ledparty", "UUID: " + uuid.toString());
+                            }
 
                         Toast.makeText(context, "Conectando a dispositivo...", Toast.LENGTH_LONG).show();
 

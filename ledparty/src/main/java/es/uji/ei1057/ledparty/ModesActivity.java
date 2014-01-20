@@ -67,7 +67,8 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
                 Log.d("ledparty", "onPageSelected: " + position);
                 ModeFragment f = ((ModeFragment) modePagerAdapter.getItem(position));
                 int i = f.getArguments().getInt(ModeFragment.ARG_SECTION_NUMBER);
-                bluetoothMaster.setMode(i);
+                if (bluetoothMaster != null)
+                    bluetoothMaster.setMode(i);
             }
         });
 
@@ -139,6 +140,7 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
 
     /**
      * Callback para el fragmento del envío de Texto
+     *
      * @param v
      */
     public void onBtnSendClick(View v) {

@@ -1,10 +1,12 @@
 package es.uji.ei1057.ledparty;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -12,12 +14,14 @@ public class BluetoothConnectActivity extends Activity {
 
     BluetoothMaster bluetoothMaster;
     ImageButton btnBluetooth;
+    Button btnSkip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
+        btnSkip = (Button) findViewById(R.id.btnSkip);
 
         // Al crear la actividad, se instancia el BluetoothMaster, para el resto de operaciones
         bluetoothMaster = ((LEDPartyApp) getApplicationContext()).getBluetoothMaster(this);
@@ -57,6 +61,11 @@ public class BluetoothConnectActivity extends Activity {
 
         // Activar al acabar de buscar dispositivos
         btnBluetooth.setEnabled(true);
+    }
+
+    public void onClickBtnSkip(View view) {
+        Intent modesIntent = new Intent(this, ModesActivity.class);
+        startActivity(modesIntent);
     }
 
     @Override

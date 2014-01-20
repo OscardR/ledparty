@@ -38,4 +38,12 @@
         android:visibility="invisible"
         android:textSize="8sp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:id="@+id/btnSkip"
+        android:layout_gravity="right|bottom"
+        android:onClick="onClickBtnSkip" />
+
 </FrameLayout>
