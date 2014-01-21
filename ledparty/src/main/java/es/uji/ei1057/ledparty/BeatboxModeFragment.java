@@ -55,7 +55,12 @@ public class BeatboxModeFragment extends ModeFragment {
     public void onStart() {
         super.onStart();
         audioReadThread = new AudioReadThread();
-        audioReadThread.start();
+        try {
+            audioReadThread.start();
+        } catch (IllegalStateException ise) {
+            Toast.makeText(context, "No se puede inicializar el micrófono :(", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Thread actualizar = new Thread() {
             public void run() {
@@ -64,12 +69,13 @@ public class BeatboxModeFragment extends ModeFragment {
                     try {
                         context.runOnUiThread(new Runnable() {
                             public void run() {
-                                // TODO: actualizar canvas
+                                // actualizar canvas
                                 imgBg.setAlpha((float) lastAmplitude);
                             }
                         });
-                        // TODO: publicar en Bluetooth el valor
-                        //Log.d("ledparty", "amplitud: " + lastAmplitude);
+                        // publicar en Bluetooth el valor
+                        ((ModesActivity) context).updateBeatbox(lastAmplitude);
+
                         Thread.sleep(30, 0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -95,27 +101,38 @@ public class BeatboxModeFragment extends ModeFragment {
 
     class AudioReadThread extends Thread {
 
-        private int SAMPLING_RATE = 44100;
-        private AudioRecord record;
-        private int bufferSize = 8000;
         private boolean running;
+
+        private AudioRecord record;
+        private int SAMPLING_RATE = 44100;
+        private int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLING_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        ;
         private double max_amplitude_square = 11000;
 
         public AudioReadThread() {
+            if (record != null && record.getState() != AudioRecord.STATE_UNINITIALIZED) {
+                if (record.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED) {
+                    record.stop();
+                }
+                record.release();
+            }
             record = new AudioRecord(
                     MediaRecorder.AudioSource.MIC,
                     SAMPLING_RATE,
                     AudioFormat.CHANNEL_CONFIGURATION_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
-                    bufferSize);
+                    BUFFER_SIZE);
+            if (record.getState() != AudioRecord.STATE_INITIALIZED) {
+                Log.e("ledparty", "AudioRecord no inicializado!");
+            }
         }
 
-        public void run() {
+        public void run() throws IllegalStateException {
             running = true;
             record.startRecording();
             while (running) {
                 try {
-                    short[] buff = new short[8000];
+                    short[] buff = new short[BUFFER_SIZE];
                     record.read(buff, 0, buff.length);
 
                     double amplitude = calculateMean(buff);
@@ -127,6 +144,7 @@ public class BeatboxModeFragment extends ModeFragment {
                 }
             }
             record.stop();
+            record.release();
         }
 
         private double calculateMean(short[] nums) {

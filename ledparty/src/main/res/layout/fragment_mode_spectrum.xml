@@ -15,5 +15,5 @@
         android:scaleType="fitCenter"
         android:src="@drawable/spectrum"
         android:layout_margin="20dip"
-        android:alpha="0.15" />
+        android:alpha="1" />
 </RelativeLayout>

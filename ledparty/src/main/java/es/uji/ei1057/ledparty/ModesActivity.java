@@ -147,7 +147,14 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
         String message = ((EditText) v.getRootView().findViewById(R.id.editText)).getText().toString();
         Toast.makeText(this, "Texto enviado", Toast.LENGTH_SHORT).show();
         bluetoothMaster.sendMessage(message);
-        Log.d("ledparty", "capturado onBtnSendClick");
+    }
+
+    /**
+     * Callback para el fragmento del Beatbox
+     * @param amplitude
+     */
+    public void updateBeatbox(double amplitude) {
+        bluetoothMaster.sendMessage("" + amplitude);
     }
 
     /**

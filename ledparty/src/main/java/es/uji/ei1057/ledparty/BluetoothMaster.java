@@ -306,7 +306,7 @@ public class BluetoothMaster extends BroadcastReceiver {
             outputStream = socket.getOutputStream();
             outputStream.write(message.getBytes());
         } catch (IOException e) {
-            Log.e("ledparty", "No pudo ser");
+            //Log.e("ledparty", "No pudo ser");
         }
     }
 }

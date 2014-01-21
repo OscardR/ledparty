@@ -47,6 +47,10 @@ class LEDPartyServer:
         # Tab del modo Beatbox
         hBeatbox = gtk.HBox()
         hBeatbox.show()
+        self.beatboxArea = gtk.DrawingArea()
+        self.beatboxArea.set_size_request(300, 300)
+        self.beatboxArea.show()
+        hBeatbox.add(self.beatboxArea)
 
         self.add_page("Texto", hTexto)
         self.add_page("Espectroscopio", hEspectro)
@@ -108,7 +112,17 @@ class LEDPartyServer:
         elif self.mode == MODO_ESPECTROSCOPIO:
             pass
         elif self.mode == MODO_BEATBOX:
-            pass
+            data = float(data)
+            drawable = self.beatboxArea.get_window()
+            gc = drawable.new_gc()
+            gc.set_foreground(gtk.gdk.Color(
+                data * 65535, 
+                data * 65535, 
+                data * 65535))
+            drawable.draw_rectangle(
+                gc, True, 
+                10, 10, 
+                280, 280)
         else:
             self.debug("Modo incorrecto")
 
