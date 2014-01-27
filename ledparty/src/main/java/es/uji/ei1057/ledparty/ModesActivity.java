@@ -154,7 +154,24 @@ public class ModesActivity extends Activity implements ActionBar.TabListener {
      * @param amplitude
      */
     public void updateBeatbox(double amplitude) {
-        bluetoothMaster.sendMessage("" + amplitude);
+        if (bluetoothMaster != null)
+            bluetoothMaster.sendMessage("" + amplitude);
+        else Toast.makeText(this, "No hay conexión!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Callback para el fragmento de Spectrum
+     * @param values
+     */
+    public void updateSpectrum(double[] values) {
+        if (bluetoothMaster != null && values != null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < values.length; i++) {
+                sb.append(values[i]);
+                if (i < values.length - 1) sb.append(",");
+            }
+            bluetoothMaster.sendMessage(sb.toString());
+        } //else Toast.makeText(this, "No hay conexión!", Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -17,14 +17,18 @@ public class BluetoothConnectActivity extends Activity {
     Button btnSkip;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        // Al crear la actividad, se instancia el BluetoothMaster, para el resto de operaciones
+        bluetoothMaster = ((LEDPartyApp) getApplicationContext()).getBluetoothMaster(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
         btnBluetooth = (ImageButton) findViewById(R.id.btnBluetooth);
         btnSkip = (Button) findViewById(R.id.btnSkip);
-
-        // Al crear la actividad, se instancia el BluetoothMaster, para el resto de operaciones
-        bluetoothMaster = ((LEDPartyApp) getApplicationContext()).getBluetoothMaster(this);
     }
 
     @Override
@@ -63,6 +67,11 @@ public class BluetoothConnectActivity extends Activity {
         btnBluetooth.setEnabled(true);
     }
 
+    /**
+     * Handler para el botón de saltarse el paso de la conexión
+     *
+     * @param view
+     */
     public void onClickBtnSkip(View view) {
         Intent modesIntent = new Intent(this, ModesActivity.class);
         startActivity(modesIntent);

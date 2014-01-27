@@ -6,7 +6,7 @@ from bluetooth import *
 MODO_TEXTO          = 0
 MODO_ESPECTROSCOPIO = 1
 MODO_BEATBOX        = 2
-DEBUG               = True
+DEBUG               = False
 
 class BluetoothServer:
     def __init__(self):
@@ -57,7 +57,7 @@ class BluetoothServer:
         try:
             while True:
                 data = self.socket_cliente.recv(1024)
-                if len(data) == 0: break
+                #if len(data) == 0: break
                 
                 if data == "\\T":
                     self.debug("[Modo Texto]")

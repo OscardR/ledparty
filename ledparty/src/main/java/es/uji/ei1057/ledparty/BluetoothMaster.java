@@ -150,8 +150,6 @@ public class BluetoothMaster extends BroadcastReceiver {
                         } else {
                             Toast.makeText(context, "Conexión rechazada!", Toast.LENGTH_SHORT).show();
                         }
-
-                        //Toast.makeText(context, "Has hecho click en " + which, Toast.LENGTH_SHORT).show();
                     }
                 }).show();
     }
@@ -301,12 +299,19 @@ public class BluetoothMaster extends BroadcastReceiver {
         }
     }
 
+    /**
+     * Manda una cadena de texto por el canal RF de Bluetooth
+     *
+     * @param message
+     */
     public void sendMessage(String message) {
         try {
             outputStream = socket.getOutputStream();
             outputStream.write(message.getBytes());
         } catch (IOException e) {
             //Log.e("ledparty", "No pudo ser");
+        } catch (NullPointerException npe) {
+            ;
         }
     }
 }
