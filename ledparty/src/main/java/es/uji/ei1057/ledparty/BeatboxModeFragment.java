@@ -89,6 +89,7 @@ public class BeatboxModeFragment extends ModeFragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("ledparty", "beatbox.onpause");
         if (audioReadThread != null)
             audioReadThread.interrupt();
         audioReadThread = null;
@@ -106,7 +107,6 @@ public class BeatboxModeFragment extends ModeFragment {
         private AudioRecord record;
         private int SAMPLING_RATE = 44100;
         private int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLING_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-        ;
         private double max_amplitude_square = 11000;
 
         public AudioReadThread() {
