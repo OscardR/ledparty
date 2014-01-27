@@ -4,8 +4,14 @@ package es.uji.ei1057.ledparty;
  * Created by oscar on 27/01/14.
  * http://blog.datasingularity.com/?p=53
  */
-public class FFT {
-    public static double[] transform(short[] data, int nn, int isign) {
+public class FFTAudioTransform implements AudioTransform {
+
+    @Override
+    public double[] transform(short[] data) {
+        // Defaults
+        int nn = data.length / 2;
+        int isign = 1;
+
         double[] transformed = new double[data.length];
         for (int j = 0; j < data.length; j++) {
             transformed[j] = (double) data[j];
