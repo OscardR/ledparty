@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LEDParty.iml" filepath="$PROJECT_DIR$/LEDParty.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ledparty/ledparty.iml" filepath="$PROJECT_DIR$/ledparty/ledparty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ledparty.iml" filepath="$PROJECT_DIR$/ledparty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ledparty/ledparty-ledparty.iml" filepath="$PROJECT_DIR$/ledparty/ledparty-ledparty.iml" />
     </modules>
   </component>
 </project>
-

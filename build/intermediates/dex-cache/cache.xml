@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/a7d991d620f8fbe049a66d7783b4c3d8af13b6d2/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_81ab7c3d4eeb23143e1e30acba8814aa52206f55/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/957f115dd07b0f0d8d71f2783d9466276f1e1d4f/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="62f733cc92b1611138da965697f4654cd385e078">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_3078e8f5680d026d1c7a5850cf5d9e4d2ce34f4c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/support-annotations-26.0.0-alpha1_0bdb4fde7f863f9865055bcd0f21221a2d845d9a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/72f727ab074d51aea1c286e788a740993d056d23/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_5ae461e3f75fec83738f3188a4fdd82e255f66c2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/197e5399e6f84dc67412ea81f1cb15fd8c45ab0d/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_db136af29784cec32d2576fef4dbda81b1dce9cc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/89bb7c8b246eb2d2d74a842a1a515153c0964991/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_f83f9ea79b780b43d3964b4b0a0b229857de7ba9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/incremental-classes/defaultFlavor/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="eae922956596b160b68593ab76816e4a15c2b7b4">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10000/instant-run-bootstrap_d39bed458aa464024f3584de8af40691429c3efd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/0f7519cad4b013bf1f75f17c1c26042a56af7eaa/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_f6a55a6b01c396efca51038db7fcc3688067cbb5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/incremental-runtime-classes/defaultFlavor/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10000/instant-run_228106c89e6c4c5bbd2d4980db3aa57ce39833d5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/oscar/.android/build-cache/8d39bda7ecfee611ba2b9a1e808a5070484695ff/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="/Users/oscar/Workspace/ledparty/ledparty/build/intermediates/transforms/dex/defaultFlavor/debug/folders/1000/10/classes_4dd21c43d3222b2d8277563c1f8b0e91eed69eac/classes.dex" />
+    </item>
+
+</items>
